@@ -36,10 +36,10 @@ void setup (){
 }
 
 void loop (){
-  bool AdvDetected = sensorManager->detectObject(IRS1, DISTANCETHRESHOLD) || sensorManager->detectObject(IRS2, DISTANCETHRESHOLD) || sensorManager->detectObject(IRS3, DISTANCETHRESHOLD) || sensorManager->detectObject(IRS4, DISTANCETHRESHOLD);
+  bool AdvDetected = sensorManager->detectObject(IRS1, DISTANCETHRESHOLD);
   
   if(AdvDetected)
     Serial.println("ADVERSAIRE DETECTE !");
   
-  delay(50);
+  delay(300);
 }
