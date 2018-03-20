@@ -36,7 +36,12 @@ class SensorManager{
     * Return the average value of the last <measureCount> output of the specified sensor 
     */
    int readSensorData(unsigned char id, unsigned char measureCount);
-	 
+   
+   /**
+    * Detect if something is in front of the specified sensor placed at a distance less than <thresholdDistance>
+    */
+   bool detectObject(unsigned char id, double thresholdDistance); // distance in mm
+    
 	private:	//private stuff; don't try to modifie this! x)
    unsigned char *__IdToType;
 };

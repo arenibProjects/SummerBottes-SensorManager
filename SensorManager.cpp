@@ -26,3 +26,23 @@ int SensorManager::readSensorData(unsigned char pinId, unsigned char measureCoun
 	return 0;
 	
 }
+
+bool SensorManager::detectObject(unsigned char id, double thresholdDistance){
+  if (__IdToType[pinId] == SHARP){
+    int IRvalue = this->readSensorData(id);
+    
+    if(IRvalue < 10)
+      IRvalue = 10;
+    
+    double measuredDistance = ((67870.0 / (IRvalue - 3.0)) - 40.0); // formula randomly found on the net
+
+    if(measuredDistance < thresholdDistance)
+      return true;
+    else
+      return false;
+    
+  }
+
+  return false;
+}
+
