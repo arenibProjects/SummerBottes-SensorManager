@@ -11,17 +11,29 @@ void SensorManager::registerNewSensor(unsigned char pinId, SensorType type){
 	__IdToType[pinId] = type;
 }
 
-int SensorManager::readSensorData(unsigned char pinId){
-  return this->readSensorData(pinId, 30);
+double SensorManager::readSensorData(unsigned char pinId){
+  int IRvalue = this->readRawSensorData(pinId, DEFAULTPRECISIONLEVEL);
+  double voltage = 3.3*(IRvalue/1024.0);
+
+   // If voltage out of bounds
+  if(voltage > 2.7)
+    voltage = 2.7;
+  if(voltage < 0.2)
+    voltage = 0.2;
+    
+  double r = (voltage*0.0415 - 0.00375); // formula randomly found by experiments :)
+  double measuredDistance = ((1.0/r) - 0.42)*10;
+  
+  return measuredDistance;
 }
 
-int SensorManager::readSensorData(unsigned char pinId, unsigned char measureCount){
+int SensorManager::readRawSensorData(unsigned char pinId, unsigned char measureCount){
 	if (__IdToType[pinId] == SHARP){
     int sum = 0;
     for(unsigned char i = 0; i<measureCount; i++){
 			sum += analogRead(pinId);
     }
-    return (int)sum/measureCount;
+    return (int) (sum/((1.0)*measureCount));
 	}
 	return 0;
 	
@@ -29,18 +41,13 @@ int SensorManager::readSensorData(unsigned char pinId, unsigned char measureCoun
 
 bool SensorManager::detectObject(unsigned char pinId, double thresholdDistance){
   if (__IdToType[pinId] == SHARP){
-    int IRvalue = this->readSensorData(pinId);
-    
-    if(IRvalue < 10)
-      IRvalue = 10;
-    
-    double measuredDistance = ((67870.0 / (IRvalue - 3.0)) - 40.0); // formula randomly found on the net
+    double measuredDistance = this->readSensorData(pinId);
 
     if(measuredDistance < thresholdDistance)
       return true;
     else
       return false;
-    
+      
   }
 
   return false;
