@@ -27,9 +27,9 @@ int SensorManager::readSensorData(unsigned char pinId, unsigned char measureCoun
 	
 }
 
-bool SensorManager::detectObject(unsigned char id, double thresholdDistance){
+bool SensorManager::detectObject(unsigned char pinId, double thresholdDistance){
   if (__IdToType[pinId] == SHARP){
-    int IRvalue = this->readSensorData(id);
+    int IRvalue = this->readSensorData(pinId);
     
     if(IRvalue < 10)
       IRvalue = 10;
