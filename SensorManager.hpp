@@ -1,5 +1,5 @@
-#ifndef PINCE
-#define PINCE 1
+#ifndef SENSORMANAGER_H
+#define SENSORMANAGER_H 1
 #define SHARP ((unsigned char)1)
 
 #include <Arduino.h>
