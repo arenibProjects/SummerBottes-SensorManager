@@ -3,6 +3,7 @@
 #define SHARP ((unsigned char)1)
 
 #define DEFAULTPRECISIONLEVEL 5
+#define SENSOR_MANAGER_TAB_SIZE 64
 
 #include <Arduino.h>
 
