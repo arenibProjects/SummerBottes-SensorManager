@@ -20,10 +20,10 @@ double SensorManager::readSensorData(unsigned char pinId){
     voltage = 2.7;
   if(voltage < 0.2)
     voltage = 0.2;
-    
+
   double r = (voltage*0.0415 - 0.00375); // formula randomly found by experiments :)
   double measuredDistance = ((1.0/r) - 0.42)*10;
-  
+
   return measuredDistance;
 }
 
@@ -32,11 +32,14 @@ int SensorManager::readRawSensorData(unsigned char pinId, unsigned char measureC
     int sum = 0;
     for(unsigned char i = 0; i<measureCount; i++){
 			sum += analogRead(pinId);
+      delay(3);
     }
     return (int) (sum/((1.0)*measureCount));
-	}
+	}else if(__IdToType[pinId] == LASER_CLASS_2){
+    return digitalRead(pinId);
+  }
 	return 0;
-	
+
 }
 
 bool SensorManager::detectObject(unsigned char pinId, double thresholdDistance){
@@ -47,9 +50,8 @@ bool SensorManager::detectObject(unsigned char pinId, double thresholdDistance){
       return true;
     else
       return false;
-      
+
   }
 
   return false;
 }
-
